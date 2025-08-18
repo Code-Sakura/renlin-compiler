@@ -4,17 +4,16 @@ buildscript {
         mavenLocal()
         mavenCentral()
     }
-    dependencies {
-        classpath("net.kigawa:net.kigawa.gradle.plugin:1.0.0")
-    }
 }
+
+
 
 plugins {
     kotlin("jvm") version "1.9.0"
     application
+    id("net.kigawa.renlin-compiler") version "1.0.0"
 }
 
-apply(plugin = "net.kigawa.renlin-compiler")
 
 group = "net.kigawa"
 version = "1.0-SNAPSHOT"
@@ -26,6 +25,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation("net.kigawa:kotlin-plugin:1.0.0")
     testImplementation(kotlin("test"))
 }
 
@@ -33,11 +33,6 @@ kotlin {
     jvmToolchain(8)
 }
 
-// プラグイン設定
-configure<net.kigawa.renlin.RenlinCompilerExtension> {
-    enabled = true
-    annotations = listOf("net.kigawa.sample.UseAutoKey")
-}
 
 tasks.test {
     useJUnitPlatform()

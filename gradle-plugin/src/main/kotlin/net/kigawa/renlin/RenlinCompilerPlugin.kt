@@ -27,9 +27,6 @@ class RenlinCompilerPlugin : KotlinCompilerPluginSupportPlugin {
     // extensionで設定された項目をコンパイラに伝える
     override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
         val extension = kotlinCompilation.project.extensions.findByType(RenlinCompilerExtension::class.java) ?: RenlinCompilerExtension()
-        if (extension.enabled && extension.annotations.isEmpty()) {
-            error("RenlinCompilerPlugin is enabled but no annotations are specified.")
-        }
 
         val annotationOptions = extension.annotations.map {
             SubpluginOption(key = "renlinCompilerAnnotation", value = it)

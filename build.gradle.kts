@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "net.kigawa"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -20,8 +20,4 @@ tasks.test {
 
 kotlin {
     jvmToolchain(8)
-}
-
-application {
-    mainClass.set("MainKt")
 }

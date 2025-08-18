@@ -1,5 +1,7 @@
 package net.kigawa.sample
 
+import net.kigawa.renlin.AutoFill
+
 // テスト用のコンポーネントクラス
 class TestComponent {
     fun render(@AutoFill key: String? = null, content: String) {

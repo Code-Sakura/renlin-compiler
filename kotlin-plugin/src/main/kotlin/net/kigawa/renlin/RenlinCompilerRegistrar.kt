@@ -12,12 +12,12 @@ class RenlinCompilerRegistrar : CompilerPluginRegistrar() {
     override val supportsK2: Boolean get() = true
 
     override fun ExtensionStorage.registerExtensions(configuration: CompilerConfiguration) {
-        if (configuration[RenlinCommandLineProcessor.KEY_ENABLED] == false) {
+        val enabled = configuration[RenlinCommandLineProcessor.KEY_ENABLED] ?: true
+        if (!enabled) {
             return
         }
 
-        val annotations = configuration[RenlinCommandLineProcessor.KEY_ANNOTATIONS]
-            ?: error("RenlinPlugin is enabled but no annotations are specified.")
+        val annotations = configuration[RenlinCommandLineProcessor.KEY_ANNOTATIONS] ?: emptyList()
         IrGenerationExtension.registerExtension(RenlinIrGenerationExtension(annotations))
     }
 }

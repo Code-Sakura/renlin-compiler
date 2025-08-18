@@ -32,41 +32,12 @@ class RenlinIrGenerationExtension(
 
         moduleFragment.transformChildren(
             object: IrElementTransformerVoidWithContext() {
-                private var insideAnnotatedFunction = false
-
-                override fun visitFunctionNew(declaration: IrFunction): IrStatement {
-                    val prev = insideAnnotatedFunction
-
-                    // アノテーションの検出をデバッグ
-                    val hasTargetAnnotation = if (annotations.isEmpty()) {
-                        true
-                    } else {
-                        annotations.any { annotationFqName ->
-                            val hasAnno = declaration.hasAnnotation(FqName(annotationFqName))
-                            if (hasAnno) {
-                                log("Found annotated function: ${declaration.name} with annotation: $annotationFqName")
-                            }
-                            hasAnno
-                        }
-                    }
-
-                    insideAnnotatedFunction = insideAnnotatedFunction || hasTargetAnnotation
-
-                    val result = super.visitFunctionNew(declaration)
-                    insideAnnotatedFunction = prev
-                    return result
-                }
 
                 override fun visitCall(expression: IrCall): IrExpression {
                     val result = super.visitCall(expression) as IrCall
 
                     // 詳細なデバッグ情報を出力
                     IrDebugHelper.printIrCall(result)
-
-                    // アノテーションが指定されている場合、アノテーション付き関数内でのみ処理
-                    if (!insideAnnotatedFunction && annotations.isNotEmpty()) {
-                        return result
-                    }
 
                     // アノテーション付きパラメータで値がnullの場合に自動値を生成
                     for (i in 0 until result.valueArgumentsCount) {
@@ -93,8 +64,7 @@ class RenlinIrGenerationExtension(
 
                 private fun hasAutoFillAnnotation(call: IrCall, paramIndex: Int): Boolean {
                     val parameter = call.symbol.owner.valueParameters.getOrNull(paramIndex)
-                    return parameter?.hasAnnotation(FqName("net.kigawa.sample.AutoFill")) == true ||
-                        parameter?.hasAnnotation(FqName("AutoFill")) == true
+                    return parameter?.hasAnnotation(FqName("net.kigawa.renlin.AutoFill")) == true
                 }
 
                 private fun generateAutoValue(paramName: String): String {

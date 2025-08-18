@@ -20,12 +20,14 @@ class RenlinCommandLineProcessor : CommandLineProcessor {
             optionName = "enabled",
             valueDescription = "true|false",
             description = "Whether RenlinPlugin is enabled or not.",
+            required = false,
         ),
         CliOption(
             optionName = "renlinCompilerAnnotation",
             valueDescription = "annotation",
             description = "Annotation to be processed by RenlinPlugin.",
             allowMultipleOccurrences = true,
+            required = false,
         ),
     )
 

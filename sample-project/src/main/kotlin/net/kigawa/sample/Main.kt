@@ -10,7 +10,6 @@ fun main() {
     testWithoutAnnotation()
 }
 
-@UseAutoKey
 fun testAutoFillParameters() {
     println("\n--- testAutoFillParameters() function ---")
     println("この関数内の@AutoFillアノテーション付きパラメータには自動的に値が注入されます")

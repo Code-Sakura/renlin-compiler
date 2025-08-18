@@ -4,6 +4,9 @@ plugins {
     `maven-publish`
 }
 
+group = "net.kigawa"
+version = "1.0.0"
+
 gradlePlugin {
     plugins {
         create("renlinCompiler") {
