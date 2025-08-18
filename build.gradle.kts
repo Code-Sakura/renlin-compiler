@@ -28,8 +28,8 @@ nexusPublishing {
         sonatype {
             nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
             snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-            username.set(System.getenv("MAVEN_USERNAME"))
-            password.set(System.getenv("MAVEN_PASSWORD"))
+            username.set(System.getenv("MAVEN_USERNAME") ?: project.findProperty("sonatypeUsername") as String?)
+            password.set(System.getenv("MAVEN_PASSWORD") ?: project.findProperty("sonatypePassword") as String?)
         }
     }
 }
