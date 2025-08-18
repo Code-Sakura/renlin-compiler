@@ -9,7 +9,6 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.config.CompilerConfigurationKey
 
 @OptIn(ExperimentalCompilerApi::class)
-@AutoService(CommandLineProcessor::class)
 class MyCommandLineProcessor : CommandLineProcessor {
     companion object {
         val KEY_ENABLED = CompilerConfigurationKey.create<Boolean>("my-plugin-enabled")

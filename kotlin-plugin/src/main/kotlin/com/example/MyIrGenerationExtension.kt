@@ -69,82 +69,50 @@ class MyIrGenerationExtension(
                         return result
                     }
 
-                    // Component1.invokeの呼び出しをより正確に特定
-                    if (isComponentInvoke(result) && result.getValueArgument(0) == null) {
-                        val componentName = extractComponentName(result)
-                        val keyValue = generateKeyForComponent(componentName)
+                    // アノテーション付きパラメータで値がnullの場合に自動値を生成
+                    for (i in 0 until result.valueArgumentsCount) {
+                        if (result.getValueArgument(i) == null && hasAutoFillAnnotation(result, i)) {
+                            val functionName = extractFunctionName(result)
+                            val paramName = result.symbol.owner.valueParameters.getOrNull(i)?.name?.asString() ?: "param$i"
+                            val autoValue = generateAutoValue(functionName, paramName)
 
-                        log("Injecting key '$keyValue' into component call")
+                            log("Injecting auto-generated value '$autoValue' for annotated parameter $i in function: ${result.symbol.owner.fqNameWhenAvailable}")
 
-                        result.putValueArgument(
-                            0,
-                            IrConstImpl.string(
-                                startOffset = expression.startOffset,
-                                endOffset = expression.endOffset,
-                                type = pluginContext.irBuiltIns.stringType,
-                                value = keyValue
+                            result.putValueArgument(
+                                i,
+                                IrConstImpl.string(
+                                    startOffset = expression.startOffset,
+                                    endOffset = expression.endOffset,
+                                    type = pluginContext.irBuiltIns.stringType,
+                                    value = autoValue
+                                )
                             )
-                        )
+                        }
                     }
                     return result
                 }
 
-                private fun generateKeyForComponent(name: String): String {
-                    val count = keyCounters.getOrDefault(name, 0) + 1
-                    keyCounters[name] = count
-                    return "$name-$count"
+                private fun hasAutoFillAnnotation(call: IrCall, paramIndex: Int): Boolean {
+                    val parameter = call.symbol.owner.valueParameters.getOrNull(paramIndex)
+                    return parameter?.hasAnnotation(FqName("net.kigawa.sample.AutoFill")) == true ||
+                           parameter?.hasAnnotation(FqName("AutoFill")) == true
                 }
 
-                private fun extractComponentName(call: IrCall): String {
-                    // より詳細なコンポーネント名の抽出
+                private fun extractFunctionName(call: IrCall): String {
                     val owner = call.symbol.owner
                     val parentClass = owner.parentClassOrNull
-
+                    
                     return when {
-                        parentClass != null -> parentClass.name.asString()
-                        else -> {
-                            // dispatchReceiverからコンポーネント名を取得を試みる
-                            val dispatchReceiver = call.dispatchReceiver
-                            if (dispatchReceiver != null) {
-                                val receiverType = dispatchReceiver.type.toString()
-                                // 型名から最後の部分を抽出 (例: Component1<Tag, DSL> -> Component1)
-                                receiverType.substringAfterLast('.').substringBefore('<')
-                            } else {
-                                "component"
-                            }
-                        }
+                        parentClass != null -> "${parentClass.name.asString()}.${owner.name.asString()}"
+                        else -> owner.name.asString()
                     }
                 }
 
-                private fun isComponentInvoke(call: IrCall): Boolean {
-                    val owner = call.symbol.owner
-                    val fqName = owner.fqNameWhenAvailable?.asString()
-
-                    // デバッグ出力
-                    log("Checking call: $fqName")
-
-                    // より柔軟な判定条件
-                    return when {
-                        // 完全一致
-                        fqName == "net.kigawa.renlin.tag.component.Component1.invoke" -> true
-                        // 短縮形での一致
-                        fqName == "net.kigawa.renlin.Component1.invoke" -> true
-                        // 関数名とパラメータでの判定
-                        owner.name.asString() == "invoke" &&
-                                owner.valueParameters.size >= 2 && // key, block
-                                owner.valueParameters[0].name.asString() == "key" &&
-                                owner.valueParameters[1].name.asString() == "block" -> {
-                            log("Found invoke by parameter structure")
-                            true
-                        }
-                        // 演算子オーバーロードの判定
-                        owner.name.asString() == "invoke" &&
-                                fqName?.contains("Component") == true -> {
-                            log("Found component invoke by name pattern")
-                            true
-                        }
-                        else -> false
-                    }
+                private fun generateAutoValue(functionName: String, paramName: String): String {
+                    val key = "$functionName.$paramName"
+                    val count = keyCounters.getOrDefault(key, 0) + 1
+                    keyCounters[key] = count
+                    return "auto-$paramName-$count"
                 }
             },
             null

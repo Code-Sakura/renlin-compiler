@@ -1,6 +1,5 @@
 plugins {
     kotlin("jvm")
-    kotlin("kapt")
     `java-gradle-plugin`
     `maven-publish`
 }
@@ -19,15 +18,19 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.9.0")
 
     compileOnly("com.google.auto.service:auto-service:1.1.1")
-    kapt("com.google.auto.service:auto-service:1.1.1")
+    annotationProcessor("com.google.auto.service:auto-service:1.1.1")
+}
+
+kotlin {
+    jvmToolchain(8)
 }
 
 publishing {
     publications {
         register("mavenJava", MavenPublication::class) {
             from(components["kotlin"])
-            groupId = "com.example.my-plugin"
-            artifactId = "com.example.my-plugin.gradle.plugin"
+            groupId = "net.kigawa"
+            artifactId = "net.kigawa.gradle.plugin"
             version = "1.0.0"
         }
     }

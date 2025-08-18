@@ -8,7 +8,6 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 
 @Suppress("unused")
 @OptIn(ExperimentalCompilerApi::class)
-@AutoService(CompilerPluginRegistrar::class)
 class MyCompilerRegistrar : CompilerPluginRegistrar() {
     // For now, not intended to support K2.
     override val supportsK2: Boolean get() = true

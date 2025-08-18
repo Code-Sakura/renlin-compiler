@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="renlin-site-js-1.0">
+    <output-path>$PROJECT_DIR$/../renlin-site/build/libs</output-path>
+    <root id="archive" name="renlin-site-js-1.0.jar" />
+  </artifact>
+</component>

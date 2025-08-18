@@ -3,7 +3,7 @@ plugins {
     application
 }
 
-group = "org.example"
+group = "net.kigawa"
 version = "1.0-SNAPSHOT"
 
 repositories {

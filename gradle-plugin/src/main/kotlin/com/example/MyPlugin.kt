@@ -9,7 +9,6 @@ import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
 @Suppress("unused")
-@AutoService(KotlinCompilerPluginSupportPlugin::class)  // 忘れずにつけよう。META_INFに追加しなきゃいけないファイルを自動生成してくれる。
 class MyPlugin : KotlinCompilerPluginSupportPlugin {
     // プラグイン適用時の処理
     // extension（プラグインの設定項目）をgradleに追加する
@@ -53,7 +52,7 @@ class MyPlugin : KotlinCompilerPluginSupportPlugin {
     // Kotlinコンパイラプラグインの実装部アーティファクトを返す
     override fun getPluginArtifact(): SubpluginArtifact {
         return SubpluginArtifact(
-            groupId = "com.example.my-plugin",
+            groupId = "net.kigawa",
             artifactId = "kotlin-plugin",  // 次のステップで作るよ！
             version = "1.0.0",
         )

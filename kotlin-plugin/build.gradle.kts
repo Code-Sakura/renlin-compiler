@@ -1,6 +1,5 @@
 plugins {
     kotlin("jvm")
-    kotlin("kapt")
     `maven-publish`
 }
 
@@ -9,14 +8,18 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.9.0")
 
     compileOnly("com.google.auto.service:auto-service:1.1.1")
-    kapt("com.google.auto.service:auto-service:1.1.1")
+    annotationProcessor("com.google.auto.service:auto-service:1.1.1")
+}
+
+kotlin {
+    jvmToolchain(8)
 }
 
 publishing {
     publications {
         register("mavenJava", MavenPublication::class) {
             from(components["kotlin"])
-            groupId = "com.example.my-plugin"
+            groupId = "net.kigawa"
             artifactId = "kotlin-plugin"
             version = "1.0.0"
         }
