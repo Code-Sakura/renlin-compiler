@@ -19,15 +19,6 @@ fun testAutoFillParameters() {
 
     // @AutoFillアノテーション付きパラメータに自動値が注入される
     component.render(content = "Hello World")
-    component.render(null, "Second render")
-
-    // 複数の@AutoFillパラメータを持つ関数
-    component.process(null, null, 42)
-    component.process(null, null, 100)
-
-    // 通常の関数でも@AutoFillパラメータは動作する
-    createItem(null, "Test Item")
-    createItem(null, "Another Item")
     createItem(null)
 }
 

@@ -3,6 +3,8 @@ package com.example
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
+import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.ir.IrStatement
 import org.jetbrains.kotlin.ir.declarations.IrFunction
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
@@ -11,15 +13,13 @@ import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.impl.IrConstImpl
 import org.jetbrains.kotlin.ir.util.fqNameWhenAvailable
 import org.jetbrains.kotlin.ir.util.hasAnnotation
-import org.jetbrains.kotlin.ir.util.parentClassOrNull
 import org.jetbrains.kotlin.name.FqName
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
+import java.util.*
 
 class MyIrGenerationExtension(
     private val annotations: List<String> = listOf("com.example.HogeAnnotation"),
-    private val messageCollector: MessageCollector? = null
-) : IrGenerationExtension {
+    private val messageCollector: MessageCollector? = null,
+): IrGenerationExtension {
 
     private fun log(message: String) {
         messageCollector?.report(CompilerMessageSeverity.WARNING, "IR_PLUGIN: $message")
@@ -31,8 +31,7 @@ class MyIrGenerationExtension(
         log("Looking for annotations: $annotations")
 
         moduleFragment.transformChildren(
-            object : IrElementTransformerVoidWithContext() {
-                private val keyCounters = mutableMapOf<String, Int>()
+            object: IrElementTransformerVoidWithContext() {
                 private var insideAnnotatedFunction = false
 
                 override fun visitFunctionNew(declaration: IrFunction): IrStatement {
@@ -72,9 +71,9 @@ class MyIrGenerationExtension(
                     // アノテーション付きパラメータで値がnullの場合に自動値を生成
                     for (i in 0 until result.valueArgumentsCount) {
                         if (result.getValueArgument(i) == null && hasAutoFillAnnotation(result, i)) {
-                            val functionName = extractFunctionName(result)
-                            val paramName = result.symbol.owner.valueParameters.getOrNull(i)?.name?.asString() ?: "param$i"
-                            val autoValue = generateAutoValue(functionName, paramName)
+                            val paramName = result.symbol.owner.valueParameters.getOrNull(i)?.name?.asString()
+                                ?: "param$i"
+                            val autoValue = generateAutoValue(paramName)
 
                             log("Injecting auto-generated value '$autoValue' for annotated parameter $i in function: ${result.symbol.owner.fqNameWhenAvailable}")
 
@@ -95,24 +94,12 @@ class MyIrGenerationExtension(
                 private fun hasAutoFillAnnotation(call: IrCall, paramIndex: Int): Boolean {
                     val parameter = call.symbol.owner.valueParameters.getOrNull(paramIndex)
                     return parameter?.hasAnnotation(FqName("net.kigawa.sample.AutoFill")) == true ||
-                           parameter?.hasAnnotation(FqName("AutoFill")) == true
+                        parameter?.hasAnnotation(FqName("AutoFill")) == true
                 }
 
-                private fun extractFunctionName(call: IrCall): String {
-                    val owner = call.symbol.owner
-                    val parentClass = owner.parentClassOrNull
-                    
-                    return when {
-                        parentClass != null -> "${parentClass.name.asString()}.${owner.name.asString()}"
-                        else -> owner.name.asString()
-                    }
-                }
-
-                private fun generateAutoValue(functionName: String, paramName: String): String {
-                    val key = "$functionName.$paramName"
-                    val count = keyCounters.getOrDefault(key, 0) + 1
-                    keyCounters[key] = count
-                    return "auto-$paramName-$count"
+                private fun generateAutoValue(paramName: String): String {
+                    val uuid = UUID.randomUUID().toString()
+                    return "auto-$paramName-$uuid"
                 }
             },
             null
@@ -122,14 +109,6 @@ class MyIrGenerationExtension(
 
 // デバッグ用のヘルパークラス
 object IrDebugHelper {
-    fun printIrFunction(function: IrFunction) {
-        System.err.println("=== IR Function Debug ===")
-        System.err.println("Name: ${function.name}")
-        System.err.println("FQ Name: ${function.fqNameWhenAvailable}")
-        System.err.println("Annotations: ${function.annotations.map { it.type.toString() }}")
-        System.err.println("Parameters: ${function.valueParameters.map { "${it.name}: ${it.type}" }}")
-        System.err.println("========================")
-    }
 
     fun printIrCall(call: IrCall) {
         System.err.println("=== IR Call Debug ===")
