@@ -1,12 +1,17 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     kotlin("jvm") version "2.1.0"
     application
+    `maven-publish`
+    signing
     id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
     id("com.vanniktech.maven.publish") version "0.29.0"
 }
 
 object Conf {
     const val GROUP = "net.kigawa"
+
     // Base version - will be modified based on branch name if available
     const val BASE_VERSION = "1.2.1"
 }
@@ -66,11 +71,67 @@ kotlin {
 }
 
 
-nexusPublishing {
-    // Configure maven central repository
-    // https://github.com/gradle-nexus/publish-plugin#publishing-to-maven-central-via-sonatype-ossrh
-    repositories {
-        sonatype()
+publishing {
+    // Configure all publications
+    publications.withType<MavenPublication> {
+        // disabled https://github.com/vanniktech/gradle-maven-publish-plugin/issues/754
+        // and configured at library build.gradle.kts using `JavadocJar.Dokka("dokkaHtml")`.
+        /*
+        // Stub javadoc.jar artifact
+        artifact(tasks.register("${name}JavadocJar", Jar::class) {
+            archiveClassifier.set("javadoc")
+            archiveAppendix.set(this@withType.name)
+        })*/
 
+        // Provide artifacts information required by Maven Central
+        pom {
+            name = "renlin-router"
+            description = "routing library for renlin"
+            url = "https://github.com/Code-Sakura/renlin-router"
+            properties = mapOf(
+            )
+            licenses {
+                license {
+                    name.set("MIT License")
+                    url.set("http://www.opensource.org/licenses/mit-license.php")
+                }
+            }
+            developers {
+                developer {
+                    id.set("net.kigawa")
+                    name.set("kigawa")
+                    email.set("contact@kigawa.net")
+                }
+                developer {
+                    id.set("io.github.seizavl")
+                    name.set("seizavl")
+                    email.set("")
+                }
+            }
+            scm {
+                connection.set("scm:git:https://github.com/Code-Sakura/renlin-router.git")
+                developerConnection.set("scm:git:https://github.com/Code-Sakura/renlin-router.git")
+                url.set("https://github.com/Code-Sakura/renlin-router")
+            }
+        }
     }
+}
+
+signing {
+    if (project.hasProperty("mavenCentralUsername") ||
+        System.getenv("ORG_GRADLE_PROJECT_mavenCentralUsername") != null
+    ) {
+        useGpgCmd()
+        // It is not perfect (fails at some dependency assertions), better handled as
+        // `signAllPublications()` (as in vanniktech maven publish plugin) at build.gradle.kts.
+        //sign(publishing.publications)
+    }
+}
+
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    if (project.hasProperty("mavenCentralUsername") ||
+        System.getenv("ORG_GRADLE_PROJECT_mavenCentralUsername") != null
+    )
+        signAllPublications()
 }
