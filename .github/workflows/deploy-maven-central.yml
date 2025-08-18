@@ -51,6 +51,14 @@ jobs:
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
         
+      - name: Debug environment variables
+        run: |
+          echo "Maven Username present: ${{ secrets.MAVEN_USERNAME != '' }}"
+          echo "Maven Password present: ${{ secrets.MAVEN_PASSWORD != '' }}"
+          echo "GPG Key present: ${{ secrets.MAVEN_GPG_PRIVATE_KEY != '' }}"
+          echo "GPG Passphrase present: ${{ secrets.MAVEN_GPG_PASSPHRASE != '' }}"
+          echo "Version: ${{ steps.version.outputs.version }}"
+          
       - name: Publish plugins to Maven Central
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
@@ -60,7 +68,11 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           echo "Publishing plugins version: $VERSION"
-          ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository -Pversion=$VERSION
+          ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository \
+            -Pversion=$VERSION \
+            -PsonatypeUsername="${{ secrets.MAVEN_USERNAME }}" \
+            -PsonatypePassword="${{ secrets.MAVEN_PASSWORD }}" \
+            --info
           
       - name: Enable auto-merge for PR
         if: success()
