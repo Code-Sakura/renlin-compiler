@@ -46,7 +46,7 @@ class MyPlugin : KotlinCompilerPluginSupportPlugin {
 
     // プラグインのIDを返す
     override fun getCompilerPluginId(): String {
-        return "my-plugin"
+        return "renlin-compiler"
     }
 
     // Kotlinコンパイラプラグインの実装部アーティファクトを返す

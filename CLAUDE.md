@@ -106,7 +106,7 @@ fun example() {
 
 - Java 8ツールチェーンを使用
 - グループID `net.kigawa` でアーティファクトを公開
-- プラグインIDは `com.example.my-plugin`
+- プラグインIDは `net.kigawa.renlin-compiler`
 - Kotlinコードスタイルは公式規約に従う
 - アノテーションが指定されていない場合、すべての`@AutoFill`アノテーション付きパラメータが変換対象となる
 

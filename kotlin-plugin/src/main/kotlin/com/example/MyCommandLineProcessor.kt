@@ -11,11 +11,11 @@ import org.jetbrains.kotlin.config.CompilerConfigurationKey
 @OptIn(ExperimentalCompilerApi::class)
 class MyCommandLineProcessor : CommandLineProcessor {
     companion object {
-        val KEY_ENABLED = CompilerConfigurationKey.create<Boolean>("my-plugin-enabled")
-        val KEY_ANNOTATIONS = CompilerConfigurationKey.create<List<String>>("my-plugin-annotations")
+        val KEY_ENABLED = CompilerConfigurationKey.create<Boolean>("renlin-compiler-enabled")
+        val KEY_ANNOTATIONS = CompilerConfigurationKey.create<List<String>>("renlin-compiler-annotations")
     }
 
-    override val pluginId: String = "my-plugin"
+    override val pluginId: String = "renlin-compiler"
     override val pluginOptions: Collection<AbstractCliOption> = listOf(
         CliOption(
             optionName = "enabled",

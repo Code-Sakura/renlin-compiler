@@ -14,7 +14,7 @@ plugins {
     application
 }
 
-apply(plugin = "com.example.my-plugin")
+apply(plugin = "net.kigawa.renlin-compiler")
 
 group = "net.kigawa"
 version = "1.0-SNAPSHOT"

@@ -6,9 +6,9 @@ plugins {
 
 gradlePlugin {
     plugins {
-        create("myPlugin") {
-            id = "com.example.my-plugin"
-            implementationClass = "com.example.MyPlugin"  // 次のステップで実装
+        create("renlinCompiler") {
+            id = "net.kigawa.renlin-compiler"
+            implementationClass = "com.example.MyPlugin"
         }
     }
 }
