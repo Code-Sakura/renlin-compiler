@@ -65,9 +65,9 @@ jobs:
           echo "Publishing plugins version: $VERSION"
           ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository -Pversion=$VERSION
           
-      - name: Auto-merge PR
+      - name: Enable auto-merge for PR
         if: success()
-        uses: pascalgn/merge-action@v0.15.6
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          merge_method: squash
+        run: |
+          gh pr merge --squash --auto
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
