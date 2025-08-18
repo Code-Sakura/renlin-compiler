@@ -60,9 +60,8 @@ jobs:
           echo "Version: ${{ steps.version.outputs.version }}"
 
       - name: Publish package
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: |
+        run: >
+          ./gradlew
             -PmavenCentralUsername=${{ secrets.MAVEN_USERNAME }}
             -PmavenCentralPassword=${{ secrets.MAVEN_PASSWORD }}
             -PsigningInMemoryKeyId=${{ secrets.MAVEN_GPG_KEY_ID }}
