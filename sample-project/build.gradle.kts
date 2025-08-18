@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("net.kigawa:kotlin-plugin:1.0.0")
+    implementation("net.kigawa:renlin-compiler-kotlin-plugin:1.0.0")
     testImplementation(kotlin("test"))
 }
 
