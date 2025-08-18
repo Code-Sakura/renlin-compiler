@@ -1,4 +1,4 @@
-package com.example
+package net.kigawa.renlin
 
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
@@ -16,7 +16,7 @@ import org.jetbrains.kotlin.ir.util.hasAnnotation
 import org.jetbrains.kotlin.name.FqName
 import java.util.*
 
-class MyIrGenerationExtension(
+class RenlinIrGenerationExtension(
     private val annotations: List<String> = listOf("com.example.HogeAnnotation"),
     private val messageCollector: MessageCollector? = null,
 ): IrGenerationExtension {
@@ -27,7 +27,7 @@ class MyIrGenerationExtension(
     }
 
     override fun generate(moduleFragment: IrModuleFragment, pluginContext: IrPluginContext) {
-        log("MyIrGenerationExtension is running!")
+        log("RenlinIrGenerationExtension is running!")
         log("Looking for annotations: $annotations")
 
         moduleFragment.transformChildren(

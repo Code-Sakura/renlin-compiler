@@ -34,7 +34,7 @@ kotlin {
 }
 
 // プラグイン設定
-configure<com.example.MyPluginExtension> {
+configure<net.kigawa.renlin.RenlinCompilerExtension> {
     enabled = true
     annotations = listOf("net.kigawa.sample.UseAutoKey")
 }

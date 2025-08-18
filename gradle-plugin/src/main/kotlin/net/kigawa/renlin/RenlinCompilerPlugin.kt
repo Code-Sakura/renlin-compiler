@@ -1,6 +1,5 @@
-package com.example
+package net.kigawa.renlin
 
-import com.google.auto.service.AutoService
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
@@ -9,31 +8,31 @@ import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
 @Suppress("unused")
-class MyPlugin : KotlinCompilerPluginSupportPlugin {
+class RenlinCompilerPlugin : KotlinCompilerPluginSupportPlugin {
     // プラグイン適用時の処理
     // extension（プラグインの設定項目）をgradleに追加する
     override fun apply(target: Project) {
         target.extensions.create(
-            "myPlugin",
-            MyPluginExtension::class.java,
+            "renlinCompiler",
+            RenlinCompilerExtension::class.java,
         )
     }
 
     // プラグインが適用可能かどうか
     override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean {
-        return kotlinCompilation.project.plugins.hasPlugin(MyPlugin::class.java)
+        return kotlinCompilation.project.plugins.hasPlugin(RenlinCompilerPlugin::class.java)
     }
 
     // プラグインをコンパイルに適用する処理
     // extensionで設定された項目をコンパイラに伝える
     override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
-        val extension = kotlinCompilation.project.extensions.findByType(MyPluginExtension::class.java) ?: MyPluginExtension()
+        val extension = kotlinCompilation.project.extensions.findByType(RenlinCompilerExtension::class.java) ?: RenlinCompilerExtension()
         if (extension.enabled && extension.annotations.isEmpty()) {
-            error("MyPlugin is enabled but no annotations are specified.")
+            error("RenlinCompilerPlugin is enabled but no annotations are specified.")
         }
 
         val annotationOptions = extension.annotations.map {
-            SubpluginOption(key = "myPluginAnnotation", value = it)
+            SubpluginOption(key = "renlinCompilerAnnotation", value = it)
         }
         val enabledOption = SubpluginOption(
             key = "enabled",
@@ -53,7 +52,7 @@ class MyPlugin : KotlinCompilerPluginSupportPlugin {
     override fun getPluginArtifact(): SubpluginArtifact {
         return SubpluginArtifact(
             groupId = "net.kigawa",
-            artifactId = "kotlin-plugin",  // 次のステップで作るよ！
+            artifactId = "kotlin-plugin",
             version = "1.0.0",
         )
     }

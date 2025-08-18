@@ -1,6 +1,5 @@
-package com.example
+package net.kigawa.renlin
 
-import com.google.auto.service.AutoService
 import org.jetbrains.kotlin.compiler.plugin.AbstractCliOption
 import org.jetbrains.kotlin.compiler.plugin.CliOption
 import org.jetbrains.kotlin.compiler.plugin.CommandLineProcessor
@@ -9,7 +8,7 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.config.CompilerConfigurationKey
 
 @OptIn(ExperimentalCompilerApi::class)
-class MyCommandLineProcessor : CommandLineProcessor {
+class RenlinCommandLineProcessor : CommandLineProcessor {
     companion object {
         val KEY_ENABLED = CompilerConfigurationKey.create<Boolean>("renlin-compiler-enabled")
         val KEY_ANNOTATIONS = CompilerConfigurationKey.create<List<String>>("renlin-compiler-annotations")
@@ -20,12 +19,12 @@ class MyCommandLineProcessor : CommandLineProcessor {
         CliOption(
             optionName = "enabled",
             valueDescription = "true|false",
-            description = "Whether MyPlugin is enabled or not.",
+            description = "Whether RenlinPlugin is enabled or not.",
         ),
         CliOption(
-            optionName = "myPluginAnnotation",
+            optionName = "renlinCompilerAnnotation",
             valueDescription = "annotation",
-            description = "Annotation to be processed by MyPlugin.",
+            description = "Annotation to be processed by RenlinPlugin.",
             allowMultipleOccurrences = true,
         ),
     )
@@ -36,7 +35,7 @@ class MyCommandLineProcessor : CommandLineProcessor {
         configuration: CompilerConfiguration,
     ) = when (option.optionName) {
         "enabled" -> configuration.put(KEY_ENABLED, value.toBoolean())
-        "myPluginAnnotation" -> configuration.appendList(KEY_ANNOTATIONS, value)
+        "renlinCompilerAnnotation" -> configuration.appendList(KEY_ANNOTATIONS, value)
         else -> error("Unexpected config option ${option.optionName}")
     }
 }

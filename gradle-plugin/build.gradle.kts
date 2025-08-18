@@ -8,7 +8,7 @@ gradlePlugin {
     plugins {
         create("renlinCompiler") {
             id = "net.kigawa.renlin-compiler"
-            implementationClass = "com.example.MyPlugin"
+            implementationClass = "net.kigawa.renlin.RenlinCompilerPlugin"
         }
     }
 }
