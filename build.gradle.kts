@@ -4,7 +4,6 @@ plugins {
     kotlin("multiplatform") version "2.0.21" apply false
     kotlin("jvm") version "2.0.21" apply false
     application
-    `maven-publish`
     signing
     id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
     id("com.vanniktech.maven.publish") version "0.29.0"
@@ -14,7 +13,7 @@ object Conf {
     const val GROUP = "net.kigawa"
 
     // Base version - will be modified based on branch name if available
-    const val BASE_VERSION = "1.2.1"
+    const val BASE_VERSION = "1.3.0"
 }
 
 // Determine version based on branch name
