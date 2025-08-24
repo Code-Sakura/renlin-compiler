@@ -45,7 +45,6 @@ kotlin {
 
 java {
     withSourcesJar()
-    withJavadocJar()
 }
 
 
