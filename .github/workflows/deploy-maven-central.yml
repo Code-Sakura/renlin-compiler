@@ -55,7 +55,7 @@ jobs:
           echo "GPG Key present: ${{ secrets.MAVEN_GPG_PRIVATE_KEY != '' }}"
           echo "GPG Passphrase present: ${{ secrets.MAVEN_GPG_PASSPHRASE != '' }}"
           echo "Version: ${{ steps.version.outputs.version }}"
-
+      - run: sed -i "s/\"1.3.0\"/\"${{ steps.version.outputs.version }}\"/g" gradle-plugin/src/main/kotlin/net/kigawa/renlin/RenlinCompilerPlugin.kt
       - name: Publish package
         run: >
           ./gradlew
