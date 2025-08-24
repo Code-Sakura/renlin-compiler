@@ -76,7 +76,7 @@ publishing {
 
         // Provide artifacts information required by Maven Central
         pom {
-            name = "renlin-compiler"
+            name = "net.kigawa.renlin-compiler.gradle.plugin"
             description = "Kotlin Compiler Plugin for automatic value injection with @AutoFill annotation"
             url = "https://github.com/Code-Sakura/renlin-compiler"
             properties = mapOf(
