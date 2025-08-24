@@ -1,9 +1,10 @@
-
 plugins {
     `kotlin-dsl`
-    kotlin("multiplatform") version "2.0.21" apply false
-    kotlin("jvm") version "2.0.21" apply false
-    id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
+    kotlin("multiplatform") version "2.1.0" apply false
+    kotlin("jvm") version "2.1.0" apply false
+    id("io.github.gradle-nexus.publish-plugin") version "2.0.0-rc-1"
+    id("com.vanniktech.maven.publish") version "0.29.0" apply false
+    id("org.jetbrains.dokka") version "1.9.20" apply false
 }
 
 object Conf {
@@ -56,4 +57,11 @@ repositories {
     mavenCentral()
 }
 
-// Root project - only manages subprojects and Maven Central publishing configuration
+nexusPublishing {
+    // Configure maven central repository
+    // https://github.com/gradle-nexus/publish-plugin#publishing-to-maven-central-via-sonatype-ossrh
+    repositories {
+        sonatype()
+
+    }
+}
