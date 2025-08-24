@@ -48,8 +48,8 @@ class RenlinCompilerPlugin : KotlinCompilerPluginSupportPlugin {
     // Kotlinコンパイラプラグインの実装部アーティファクトを返す
     override fun getPluginArtifact(): SubpluginArtifact {
         return SubpluginArtifact(
-            groupId = "net.kigawa",
-            artifactId = "kotlin-plugin",
+            groupId = "net.kigawa.renlin-compiler",
+            artifactId = "renlin-kotlin-plugin",
             version = "1.3.0",
         )
     }
