@@ -1,6 +1,7 @@
 import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
+    `kotlin-dsl`
     kotlin("multiplatform") version "2.0.21" apply false
     kotlin("jvm") version "2.0.21" apply false
     application
@@ -10,7 +11,7 @@ plugins {
 }
 
 object Conf {
-    const val GROUP = "net.kigawa"
+    const val GROUP = "net.kigawa.renlin-compiler"
 
     // Base version - will be modified based on branch name if available
     const val BASE_VERSION = "1.3.0"
@@ -50,6 +51,7 @@ val projectVersion = determineVersion()
 
 group = Conf.GROUP
 version = projectVersion
+
 allprojects {
     group = Conf.GROUP
     version = projectVersion
@@ -58,28 +60,20 @@ repositories {
     mavenCentral()
 }
 
-// Root project - no source code, only module aggregation
-
+// Root project - only manages subprojects and Maven Central publishing configuration
 
 
 publishing {
     // Configure all publications
     publications.withType<MavenPublication> {
-        // disabled https://github.com/vanniktech/gradle-maven-publish-plugin/issues/754
-        // and configured at library build.gradle.kts using `JavadocJar.Dokka("dokkaHtml")`.
-        /*
-        // Stub javadoc.jar artifact
-        artifact(tasks.register("${name}JavadocJar", Jar::class) {
-            archiveClassifier.set("javadoc")
-            archiveAppendix.set(this@withType.name)
-        })*/
-
-        // Provide artifacts information required by Maven Central
         pom {
-            name = "net.kigawa.renlin-compiler.gradle.plugin"
-            description = "Kotlin Compiler Plugin for automatic value injection with @AutoFill annotation"
-            url = "https://github.com/Code-Sakura/renlin-compiler"
-            properties = mapOf(
+            artifactId = "net.kigawa.renlin-compiler.gradle.plugin"
+            name.set("net.kigawa.renlin-compiler.gradle.plugin")
+            description.set("Kotlin Compiler Plugin for automatic value injection with @AutoFill annotation")
+            url.set("https://github.com/Code-Sakura/renlin-compiler")
+            properties.set(
+                mapOf(
+                )
             )
             licenses {
                 license {
