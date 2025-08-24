@@ -1,10 +1,13 @@
 # CLAUDE.md
 
+日本語で返答
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## プロジェクト概要
 
-これは特定のアノテーションがついた引数の値を自動生成するKotlin Compiler Plugin (KCP)プロジェクトです。GradleプラグインとKotlinコンパイラプラグインが連携して、指定されたアノテーションが付いた関数内で、`@AutoFill`アノテーションが付いたパラメータの値を自動的に生成・注入します。
+これは特定のアノテーションがついた引数の値を自動生成するKotlin Compiler Plugin (KCP)
+プロジェクトです。GradleプラグインとKotlinコンパイラプラグインが連携して、指定されたアノテーションが付いた関数内で、
+`@AutoFill`アノテーションが付いたパラメータの値を自動的に生成・注入します。
 
 ## アーキテクチャ
 
@@ -32,31 +35,37 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 開発コマンド
 
 ### ビルド
+
 ```bash
 ./gradlew build
 ```
 
 ### クリーンビルド
+
 ```bash
 ./gradlew clean build
 ```
 
 ### ローカルMavenに公開
+
 ```bash
 ./gradlew publishToMavenLocal
 ```
 
 ### メインアプリケーション実行
+
 ```bash
 ./gradlew run
 ```
 
 ### テスト実行
+
 ```bash
 ./gradlew test
 ```
 
 ### 特定モジュールのビルド
+
 ```bash
 ./gradlew :gradle-plugin:build
 ./gradlew :kotlin-plugin:build
@@ -78,7 +87,8 @@ myPlugin {
 
 ## 変換対象
 
-プラグインは指定されたアノテーションが付いた関数内で、`@AutoFill`アノテーションが付いたパラメータでnull値が渡された場合に自動的に値を生成・注入します。自動生成される値は`"auto-parameterName-count"`形式です。
+プラグインは指定されたアノテーションが付いた関数内で、`@AutoFill`アノテーションが付いたパラメータでnull値が渡された場合に自動的に値を生成・注入します。自動生成される値は
+`"auto-parameterName-count"`形式です。
 
 ### 使用例
 
@@ -117,11 +127,13 @@ fun example() {
 ### サンプルプロジェクトの実行方法
 
 1. まずプラグインをローカルMavenに公開：
+
 ```bash
 ./gradlew :gradle-plugin:publishToMavenLocal :kotlin-plugin:publishToMavenLocal
 ```
 
 2. サンプルプロジェクトをビルド・実行：
+
 ```bash
 cd sample-project
 ../gradlew run

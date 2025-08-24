@@ -23,15 +23,15 @@ gradlePlugin {
 }
 
 dependencies {
-    implementation(kotlin("stdlib", "1.9.0"))
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.9.0")
+    implementation(kotlin("stdlib", "2.0.21"))
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin-api:2.0.21")
 
     compileOnly("com.google.auto.service:auto-service:1.1.1")
     annotationProcessor("com.google.auto.service:auto-service:1.1.1")
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(17)
 }
 
 java {

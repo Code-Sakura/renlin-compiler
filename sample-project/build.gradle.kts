@@ -9,7 +9,7 @@ buildscript {
 
 
 plugins {
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "2.0.21"
     application
     id("net.kigawa.renlin-compiler") version "1.0.0"
 }
@@ -25,12 +25,12 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("net.kigawa:renlin-compiler-kotlin-plugin:1.0.0")
+    implementation("net.kigawa:kotlin-plugin:1.0.0")
     testImplementation(kotlin("test"))
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(17)
 }
 
 

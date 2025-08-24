@@ -1,7 +1,8 @@
 import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
-    kotlin("jvm") version "2.1.0"
+    kotlin("multiplatform") version "2.0.21" apply false
+    kotlin("jvm") version "2.0.21" apply false
     application
     `maven-publish`
     signing
@@ -58,17 +59,8 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation(kotlin("test"))
-}
+// Root project - no source code, only module aggregation
 
-tasks.test {
-    useJUnitPlatform()
-}
-
-kotlin {
-    jvmToolchain(8)
-}
 
 
 publishing {
@@ -85,9 +77,9 @@ publishing {
 
         // Provide artifacts information required by Maven Central
         pom {
-            name = "renlin-router"
-            description = "routing library for renlin"
-            url = "https://github.com/Code-Sakura/renlin-router"
+            name = "renlin-compiler"
+            description = "Kotlin Compiler Plugin for automatic value injection with @AutoFill annotation"
+            url = "https://github.com/Code-Sakura/renlin-compiler"
             properties = mapOf(
             )
             licenses {
@@ -109,9 +101,9 @@ publishing {
                 }
             }
             scm {
-                connection.set("scm:git:https://github.com/Code-Sakura/renlin-router.git")
-                developerConnection.set("scm:git:https://github.com/Code-Sakura/renlin-router.git")
-                url.set("https://github.com/Code-Sakura/renlin-router")
+                connection.set("scm:git:https://github.com/Code-Sakura/renlin-compiler.git")
+                developerConnection.set("scm:git:https://github.com/Code-Sakura/renlin-compiler.git")
+                url.set("https://github.com/Code-Sakura/renlin-compiler")
             }
         }
     }
