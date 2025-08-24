@@ -3,7 +3,6 @@ import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.SonatypeHost
 plugins {
     kotlin("multiplatform")
-    application
     signing
     id("com.vanniktech.maven.publish") version "0.29.0"
 }
