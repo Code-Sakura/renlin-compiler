@@ -63,7 +63,8 @@ jobs:
           -PmavenCentralPassword=${{ secrets.MAVEN_PASSWORD }}
           -PsigningInMemoryKeyId=${{ secrets.MAVEN_GPG_KEY_ID }}
           -PsigningInMemoryPassword=${{ secrets.MAVEN_GPG_PASSPHRASE }}
-          :publishAndReleaseToMavenCentral
+          :kotlin-plugin:publishAndReleaseToMavenCentral
+          :gradle-plugin:publishAndReleaseToMavenCentral
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
