@@ -6,7 +6,6 @@ plugins {
     id("com.vanniktech.maven.publish") version "0.29.0"
 }
 
-group = "net.kigawa"
 repositories {
     gradlePluginPortal()
     mavenCentral()
