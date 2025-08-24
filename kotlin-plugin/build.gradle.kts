@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm")
+    kotlin("multiplatform")
     `maven-publish`
     signing
 }
@@ -12,58 +12,91 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
-    implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.9.0")
-
-    compileOnly("com.google.auto.service:auto-service:1.1.1")
-    annotationProcessor("com.google.auto.service:auto-service:1.1.1")
-}
-
 kotlin {
-    jvmToolchain(8)
-}
-
-java {
-    withSourcesJar()
-    withJavadocJar()
+    jvmToolchain(17)
+    
+    jvm {
+        compilations.all {
+            kotlinOptions.jvmTarget = "17"
+        }
+        withJava()
+    }
+    
+    js(IR) {
+        browser()
+        nodejs()
+    }
+    
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
+            }
+        }
+        
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
+        
+        val jvmMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+                implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:2.0.21")
+                compileOnly("com.google.auto.service:auto-service:1.1.1")
+            }
+        }
+        
+        val jvmTest by getting {
+            dependencies {
+                implementation(kotlin("test-junit5"))
+            }
+        }
+        
+        val jsMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-js")
+            }
+        }
+        
+        val jsTest by getting {
+            dependencies {
+                implementation(kotlin("test-js"))
+            }
+        }
+    }
 }
 
 // Version from environment or project property
 version = project.findProperty("version") as String? ?: "1.0.0"
 
 publishing {
-    publications {
-        register("mavenJava", MavenPublication::class) {
-            from(components["kotlin"])
-            groupId = "net.kigawa"
-            artifactId = "renlin-compiler-kotlin-plugin"
+    publications.withType<MavenPublication> {
+        pom {
+            name.set("Renlin AutoFill Annotation")
+            description.set("Multiplatform annotation library for automatic parameter value injection, supporting both JVM and JavaScript")
+            url.set("https://github.com/kigawa01/kcp-for-renlin")
             
-            pom {
-                name.set("Renlin Compiler Kotlin Plugin")
-                description.set("Kotlin Compiler Plugin that automatically injects values for @AutoFill annotated parameters during compilation")
+            licenses {
+                license {
+                    name.set("MIT License")
+                    url.set("https://opensource.org/licenses/MIT")
+                }
+            }
+            
+            developers {
+                developer {
+                    id.set("kigawa01")
+                    name.set("kigawa")
+                    email.set("kigawa.inbox@gmail.com")
+                }
+            }
+            
+            scm {
+                connection.set("scm:git:git://github.com/kigawa01/kcp-for-renlin.git")
+                developerConnection.set("scm:git:ssh://github.com:kigawa01/kcp-for-renlin.git")
                 url.set("https://github.com/kigawa01/kcp-for-renlin")
-                
-                licenses {
-                    license {
-                        name.set("MIT License")
-                        url.set("https://opensource.org/licenses/MIT")
-                    }
-                }
-                
-                developers {
-                    developer {
-                        id.set("kigawa01")
-                        name.set("kigawa")
-                        email.set("kigawa.inbox@gmail.com")
-                    }
-                }
-                
-                scm {
-                    connection.set("scm:git:git://github.com/kigawa01/kcp-for-renlin.git")
-                    developerConnection.set("scm:git:ssh://github.com:kigawa01/kcp-for-renlin.git")
-                    url.set("https://github.com/kigawa01/kcp-for-renlin")
-                }
             }
         }
     }

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="kcp-for-renlin-jvm-1.2.1">
+    <output-path>$PROJECT_DIR$/build/libs</output-path>
+    <root id="archive" name="kcp-for-renlin-jvm-1.2.1.jar">
+      <element id="module-output" name="kcp-for-renlin.jvmMain" />
+    </root>
+  </artifact>
+</component>
