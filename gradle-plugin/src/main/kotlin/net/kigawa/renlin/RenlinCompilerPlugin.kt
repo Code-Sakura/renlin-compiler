@@ -50,7 +50,7 @@ class RenlinCompilerPlugin : KotlinCompilerPluginSupportPlugin {
         return SubpluginArtifact(
             groupId = "net.kigawa",
             artifactId = "kotlin-plugin",
-            version = "1.0.0",
+            version = "1.3.0",
         )
     }
 }

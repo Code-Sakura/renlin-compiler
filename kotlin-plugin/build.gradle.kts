@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.kigawa"
-version = "1.0.0"
+version = "1.3.0"
 
 repositories {
     gradlePluginPortal()
@@ -68,15 +68,13 @@ kotlin {
     }
 }
 
-// Version from environment or project property
-version = project.findProperty("version") as String? ?: "1.0.0"
 
 publishing {
     publications.withType<MavenPublication> {
         pom {
             name.set("Renlin AutoFill Annotation")
             description.set("Multiplatform annotation library for automatic parameter value injection, supporting both JVM and JavaScript")
-            url.set("https://github.com/kigawa01/kcp-for-renlin")
+            url.set("https://github.com/Code-Sakura/renlin-compiler")
             
             licenses {
                 license {
@@ -94,9 +92,9 @@ publishing {
             }
             
             scm {
-                connection.set("scm:git:git://github.com/kigawa01/kcp-for-renlin.git")
-                developerConnection.set("scm:git:ssh://github.com:kigawa01/kcp-for-renlin.git")
-                url.set("https://github.com/kigawa01/kcp-for-renlin")
+                connection.set("scm:git:https://github.com/Code-Sakura/renlin-compiler.git")
+                developerConnection.set("scm:git:https://github.com/Code-Sakura/renlin-compiler.git")
+                url.set("https://github.com/Code-Sakura/renlin-compiler")
             }
         }
     }

@@ -11,7 +11,7 @@ buildscript {
 plugins {
     kotlin("jvm") version "2.0.21"
     application
-    id("net.kigawa.renlin-compiler") version "1.0.0"
+    id("net.kigawa.renlin-compiler") version "1.3.0"
 }
 
 
@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("net.kigawa:kotlin-plugin:1.0.0")
+    implementation("net.kigawa:kotlin-plugin:1.3.0")
     testImplementation(kotlin("test"))
 }
 
