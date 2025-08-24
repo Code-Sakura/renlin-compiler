@@ -5,7 +5,7 @@ plugins {
     `java-gradle-plugin`
     application
     signing
-    id("com.vanniktech.maven.publish") version "0.29.0"
+    id("com.vanniktech.maven.publish")
 }
 
 repositories {

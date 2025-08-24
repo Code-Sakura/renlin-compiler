@@ -5,9 +5,8 @@ plugins {
     kotlin("multiplatform")
     signing
     `maven-publish`
-    application
-    id("com.vanniktech.maven.publish") version "0.29.0"
-    id("org.jetbrains.dokka") version "1.9.20"
+    id("com.vanniktech.maven.publish")
+    id("org.jetbrains.dokka")
 }
 
 repositories {
@@ -125,10 +124,10 @@ signing {
 
 mavenPublishing {
     configure(KotlinMultiplatform(javadocJar = JavadocJar.Dokka("dokkaHtml")))
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     if (project.hasProperty("mavenCentralUsername") ||
         System.getenv("ORG_GRADLE_PROJECT_mavenCentralUsername") != null
     ) {
-        publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
         signAllPublications()
     }
 }
