@@ -75,8 +75,15 @@ kotlin {
 publishing {
     // Configure all publications
     publications.withType<MavenPublication> {
+        // Set platform-specific artifact IDs to avoid conflicts
+        when (name) {
+            "jvm" -> artifactId = "renlin-kotlin-plugin-jvm"
+            "js" -> artifactId = "renlin-kotlin-plugin-js" 
+            "kotlinMultiplatform" -> artifactId = "renlin-kotlin-plugin"
+            else -> artifactId = "renlin-kotlin-plugin-$name"
+        }
+        
         pom {
-            artifactId = "renlin-kotlin-plugin"
             name.set("net.kigawa.renlin-compiler.gradle.plugin")
             description.set("Kotlin Compiler Plugin for automatic value injection with @AutoFill annotation")
             url.set("https://github.com/Code-Sakura/renlin-compiler")

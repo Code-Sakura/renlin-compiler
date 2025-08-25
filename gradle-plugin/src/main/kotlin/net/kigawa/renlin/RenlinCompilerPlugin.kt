@@ -49,7 +49,7 @@ class RenlinCompilerPlugin : KotlinCompilerPluginSupportPlugin {
     override fun getPluginArtifact(): SubpluginArtifact {
         return SubpluginArtifact(
             groupId = "net.kigawa.renlin-compiler",
-            artifactId = "renlin-kotlin-plugin",
+            artifactId = "renlin-kotlin-plugin-jvm",
             version = "1.3.0",
         )
     }
