@@ -36,8 +36,6 @@ class RenlinIrGenerationExtension(
                 override fun visitCall(expression: IrCall): IrExpression {
                     val result = super.visitCall(expression) as IrCall
 
-                    // 詳細なデバッグ情報を出力
-                    IrDebugHelper.printIrCall(result)
 
                     // アノテーション付きパラメータで値がnullの場合に自動値を生成
                     for (i in 0 until result.valueArgumentsCount) {
@@ -74,20 +72,5 @@ class RenlinIrGenerationExtension(
             },
             null
         )
-    }
-}
-
-// デバッグ用のヘルパークラス
-object IrDebugHelper {
-
-    fun printIrCall(call: IrCall) {
-        System.err.println("=== IR Call Debug ===")
-        System.err.println("Symbol: ${call.symbol.owner.fqNameWhenAvailable}")
-        System.err.println("Function Name: ${call.symbol.owner.name}")
-        System.err.println("Parameters: ${call.symbol.owner.valueParameters.map { "${it.name}: ${it.type}" }}")
-        System.err.println("Arguments: ${(0 until call.valueArgumentsCount).map { call.getValueArgument(it) }}")
-        System.err.println("Dispatch Receiver: ${call.dispatchReceiver?.type}")
-        System.err.println("Extension Receiver: ${call.extensionReceiver?.type}")
-        System.err.println("====================")
     }
 }
